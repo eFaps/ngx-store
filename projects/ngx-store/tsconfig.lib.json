@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
-    "target": "es2020",
+    "target": "ES2022",
     "declaration": true,
     "inlineSources": true,
     "module": "es2020",
@@ -10,7 +10,7 @@
     "types": [],
     "lib": [
       "dom",
-      "es2018"
+      "es2022"
     ]
   },
   "angularCompilerOptions": {
