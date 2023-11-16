@@ -1,48 +1,56 @@
 # Angular Storage
+
 ### Decorators and services for cookies, session- and localStorage
+
 This library adds decorators that make it super easy to *automagically* save and restore variables using HTML5's `localStorage` and `sessionStorage`. It also provides Angular-Injectable Session- and LocalStorageService.
 
-
 ## What's included?
+
 - Decorator functions that are pretty easy to use and configure (see [Decorators config](#decorators-config)):
-    + `@LocalStorage()` - to save variable in HTML5 localStorage
-    + `@SessionStorage()` - to save variable in HTML5 sessionStorage
-    + `@CookieStorage()` - to save variable as a cookie
-    + `@SharedStorage()` - to keep variable in temporary memory that can be shared across classes
-    + `@TempStorage()` - alias for `SharedStorage`
+  - `@LocalStorage()` - to save variable in HTML5 localStorage
+  - `@SessionStorage()` - to save variable in HTML5 sessionStorage
+  - `@CookieStorage()` - to save variable as a cookie
+  - `@SharedStorage()` - to keep variable in temporary memory that can be shared across classes
+  - `@TempStorage()` - alias for `SharedStorage`
 - Injectable `LocalStorageService`, `SessionStorageService`, `CookiesStorageService` and `SharedStorageService` ([read more here](src/service#angular-storage))
 - Possibility of [listening to storage changes](https://github.com/zoomsphere/ngx-store/tree/master/src/service#listening-to-changes)
 - Easy configuration (see [#configuration](#configuration) section)
 - Compatibility with:
-    + all previous versions
-    + Angular AoT compiler
-    + `angular2-localstorage`
-    + [nativescript-localstorage](https://github.com/NathanaelA/nativescript-localstorage)
-    + Angular v2, 4 and 5
-    + your own project!
+  - all previous versions
+  - Angular AoT compiler
+  - `angular2-localstorage`
+  - [nativescript-localstorage](https://github.com/NathanaelA/nativescript-localstorage)
+  - Angular v2, 4 and 5
+  - your own project!
 - Tests coverage
 
 ## CHANGELOG
+
 #### v6.0.0 - support for Angular 15
+
 #### v4.0.0 - support for Angular 10
+
 #### v3.0.0 - support for Angular 9
 
 Version from Zoomsphere
 
 #### v2.1.0 - support for Angular 7 & TypeScript 3
+
 #### v2.0.0 - support for Angular 6 (RxJS v6)
+
 #### v1.4.x
+
 - standardized behavior for:
-    - more than 1 decorator, e.g. in `@LocalStorage() @CookieStorage() variable: any;` `CookieStorage` (decorator closer to variable) has higher priority, hence the value will be read from cookies only. The cookie value will be saved in `localStorage` regardless of its content to keep consistency.
-    - `WebStorageService.clear('all')` - now will remove everything except `ngx-store`'s config (stored in `localStorage`)
+  - more than 1 decorator, e.g. in `@LocalStorage() @CookieStorage() variable: any;` `CookieStorage` (decorator closer to variable) has higher priority, hence the value will be read from cookies only. The cookie value will be saved in `localStorage` regardless of its content to keep consistency.
+  - `WebStorageService.clear('all')` - now will remove everything except `ngx-store`'s config (stored in `localStorage`)
 - removed deprecated (since v0.5) `WEBSTORAGE_CONFIG`
 - `@SharedStorage` has now alias `@TempStorage`
 - introduced [builder pattern](https://github.com/zoomsphere/ngx-store/tree/master/src/service#builder-pattern)
 - added unit tests coverage
 - fixes for storage events
 
-
 ## Upcoming (TODO)
+
 - Storage events for keys removed from outside
 - Tests for storage events (accepting PRs)
 - Accepting Moment's instances as expiration date (accepting PRs)
@@ -52,10 +60,11 @@ Version from Zoomsphere
 - Take configuration from [npm config](https://www.npmjs.com/package/config)'s file (?)
 - Automatically handle all data manipulations using [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy) (ES6)
 
-
 ## Installation
+
 1. Download the library: `npm i ngx-store --save` or `npm i ngx-store@RC` for latest version
 2. Import the WebStorageModule in your `app.module.ts`:
+
     ```typescript
     import { NgModule } from '@angular/core';
     import { WebStorageModule } from 'ngx-store';
@@ -68,22 +77,25 @@ Version from Zoomsphere
     export class AppModule {}
     ```
 
-
 ## Configuration
+
 Things you should take into consideration while configuring this module:
+
 - Decorated objects have added `.save()` method to easily force save of made changes (configurable by `mutateObjects`)
 - Support for all `Array` methods that change array object's value can be disabled (configurable by `mutateObjects`)
 - Object mutation can be troublesome for object comparisons, so you can configure this feature for single field passing [decorator config](#decorators-config)
 - You may not use prefix (by setting it to `''`), however we recommend to use it, as it helps avoid conflicts with other libraries (configurable by `prefix`)
 - There are 3 ways to clear ngx-stored data:
-    + `'all'` - completely clears current Storage
-    + `'prefix'` - removes all variables prefixed by ngx-store
-    + `'decorators'` - removes only variables created by decorating functions (useful when not using prefix)
+  - `'all'` - completely clears current Storage
+  - `'prefix'` - removes all variables prefixed by ngx-store
+  - `'decorators'` - removes only variables created by decorating functions (useful when not using prefix)
     Default behaviour is specified by setting `clearType`, but it's possible to pass this parameter directly into service `clear()` method.
 - Examples for `cookiesScope` can be found in [this comment](https://github.com/zoomsphere/ngx-store/blob/master/src/utility/storage/cookies-storage.ts#L125)
 
 As this project uses decorating functions, it is important to provide custom configuration in global variable named `NGXSTORE_CONFIG` before Angular application load. Here are some ways to do it:
+
 1. Add `<script>` in `index.html` (before Angular sources)
+
     ```html
     <script>
     var NGXSTORE_CONFIG = {
@@ -97,7 +109,9 @@ As this project uses decorating functions, it is important to provide custom con
     };
     </script>
     ```
+
 2. If you use webpack, you can provide global variable in your `webpack.js` file this way:
+
     ```javascript
     plugins: [
       new webpack.DefinePlugin({
@@ -108,16 +122,18 @@ As this project uses decorating functions, it is important to provide custom con
     ]
     ```
 
-
 ## Decorators config
+
 Decorating functions can take config object with the following fields:
+
 - `key: string` - key under the variable will be stored, default key is the variable name
 - `mutate: boolean` - enable or disable object mutation for instance, default depends on global config
 - `expires: Date` - for `@CookieStorage()` only, specifies expiration date, null = lifetime cookie
 
-
 ## Usage
+
 1. Pretty easy to use decorators. Here is where the real magic happens.
+
     ```typescript
     import { CookieStorage, LocalStorage, SessionStorage } from 'ngx-store';
 
@@ -146,6 +162,7 @@ Decorating functions can take config object with the following fields:
     ```
 
     **Sharing variables across classes:** Decorated variables can be easily shared across different classes, e.g. Angular Components (also after their destruction) without need to create new service for this purpose.
+
     ```typescript
     import { LocalStorage, SharedStorage } from 'ngx-store';
 
@@ -173,6 +190,7 @@ Decorating functions can take config object with the following fields:
     ```
 
     **Force save changes:** If you need to modify stored object by not a direct assignment, then you can take advantage of `.save()` method to force save made changes. Example:
+
     ```typescript
     import { CookieStorage, LocalStorage, SessionStorage, WebstorableArray } from 'ngx-store';
 
@@ -199,6 +217,7 @@ Decorating functions can take config object with the following fields:
     ```
 
     **Limited lifecycle classes in AoT compilation:** There is a special case when Service or Component in your application containing decorated variable is being destroyed:
+
     ```typescript
     import { OnDestroy } from '@angular/core';
     import { LocalStorage } from 'ngx-store';
@@ -211,6 +230,7 @@ Decorating functions can take config object with the following fields:
     ```
 
 2. Use the [services](src/service#angular-storage) to manage your data:
+
     ```typescript
     import { CookiesStorageService, LocalStorageService, SessionStorageService, SharedStorageService } from 'ngx-store';
 
