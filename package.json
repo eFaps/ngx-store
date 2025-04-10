@@ -3,6 +3,7 @@
   "version": "10.0.0",
   "description": "Angular decorators to automagically keep variables in HTML5 LocalStorage, SessionStorage, cookies; injectable services for managing and listening to data changes and a bit more.",
   "scripts": {
+    "ng": "ng",
     "build": "ng build",
     "lint": "tslint ./*.ts -t verbose",
     "test": "ng test",
