@@ -8,7 +8,6 @@
     "lint": "tslint ./*.ts -t verbose",
     "test": "ng test",
     "test-CI": "ng test --browsers ChromeHeadlessNoSandbox --no-progress --no-watch",
-    "test:watch": "karma start karma.conf.js --single-run false",
     "pack-lib": "npm run build && npm pack ./dist",
     "publish-lib": "npm run build && npm publish ./dist",
     "publish-lib:rc": "npm run build && npm publish --tag RC ./dist",
