@@ -5,7 +5,7 @@
     "declaration": true,
     "inlineSources": true,
     "module": "ES2022",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "types": [],
     "lib": [
       "dom",
